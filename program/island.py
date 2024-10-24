@@ -32,8 +32,10 @@ class IslandProblem(Problem):
         return self.grid[r][c] == 1
 
 
-def bfs_islands(problem, start, visited):
+def bfs_islands(problem, start, visited, new_grid, island_count):
     """Запускает поиск в ширину для поиска всех клеток одного острова."""
+    if problem.is_land(start):
+        new_grid[start[0]][start[1]] = island_count + 1
     frontier = FIFOQueue([start])
     visited.add(start)
 
@@ -42,23 +44,27 @@ def bfs_islands(problem, start, visited):
         for action in problem.actions(node):
             if action not in visited and problem.is_land(action):
                 visited.add(action)
+                new_grid[action[0]][action[1]] = island_count + 1
                 frontier.appendleft(action)
-    return visited
+    return new_grid
 
 
 def count_islands(grid):
     problem = IslandProblem(grid)
     visited = set()
     island_count = 0
+    new_grid = grid.copy()
 
     for r in range(problem.rows):
         for c in range(problem.cols):
             state = (r, c)
             if state not in visited and problem.is_land(state):
-                bfs_islands(problem, state, visited)
+                new_grid = bfs_islands(
+                    problem, state, visited, new_grid, island_count
+                )
                 island_count += 1
 
-    return island_count
+    return island_count, new_grid
 
 
 if __name__ == "__main__":
@@ -71,4 +77,7 @@ if __name__ == "__main__":
         [1, 0, 1, 0, 1],
     ]
 
-print("Количество островов:", count_islands(grid))
+    island_count, new_grid = count_islands(grid)
+    print("Количество островов:", island_count)
+    for row in new_grid:
+        print(row)
