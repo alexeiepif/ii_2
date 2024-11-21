@@ -1,5 +1,10 @@
 from tree import FIFOQueue, Problem
 
+# Вам дана бинарная матрица, где 0 представляет воду, а 1 представляет землю.
+# Связанные единицы формируют остров. Необходимо подсчитать общее
+# количество островов в данной матрице. Острова могут соединяться как
+# по вертикали и горизонтали, так и по диагонали.
+
 
 class IslandProblem(Problem):
     def __init__(self, grid):
@@ -78,6 +83,20 @@ if __name__ == "__main__":
     ]
 
     island_count, new_grid = count_islands(grid)
+    print("Количество островов:", island_count)
+    for row in new_grid:
+        print(row)
+
+    # еще одна матрица 5 на 7
+    grid2 = [
+        [1, 1, 0, 1, 0, 0, 1],
+        [0, 1, 0, 0, 1, 0, 0],
+        [1, 0, 0, 1, 0, 0, 1],
+        [0, 1, 0, 0, 0, 1, 0],
+        [1, 0, 1, 0, 1, 0, 1],
+    ]
+
+    island_count, new_grid = count_islands(grid2)
     print("Количество островов:", island_count)
     for row in new_grid:
         print(row)
