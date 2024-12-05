@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+
 from tree import Problem, breadth_first_search, path_states
 
 # Вам предоставлен код для поиска кратчайшего пути через лабиринт,

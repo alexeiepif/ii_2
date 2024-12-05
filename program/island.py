@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+
 from tree import FIFOQueue, Problem
 
 # Вам дана бинарная матрица, где 0 представляет воду, а 1 представляет землю.
@@ -32,7 +36,6 @@ class IslandProblem(Problem):
         ]
 
     def is_land(self, state):
-
         r, c = state
         return self.grid[r][c] == 1
 

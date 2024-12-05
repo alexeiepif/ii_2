@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+
 import heapq
 import math
 from collections import deque
@@ -129,10 +133,8 @@ class PriorityQueue:
 
 
 def breadth_first_search(problem: Problem):
-
     node = Node(problem.initial)
     if problem.is_goal(problem.initial):
-
         return node
 
     frontier = FIFOQueue([node])
@@ -140,16 +142,12 @@ def breadth_first_search(problem: Problem):
     reached = {problem.initial}
 
     while frontier:
-
         node = frontier.pop()
         for child in expand(problem, node):
-
             s = child.state
             if problem.is_goal(s):
-
                 return child
             if s not in reached:
-
                 reached.add(s)
                 frontier.appendleft(child)
     return failure
