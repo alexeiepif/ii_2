@@ -54,16 +54,12 @@ def load_elems(path):
     return nodes, edges
 
 
-def search(problem: Problem):
+def solve(init, goal, nodes, edges):
+    problem = MinPathProblem(init, goal, nodes, edges)
     b = breadth_first_search(problem)
     length = b.path_cost
     path = path_states(b)
     return length, path
-
-
-def solve(init, goal, nodes, edges):
-    problem = MinPathProblem(init, goal, nodes, edges)
-    return search(problem)
 
 
 if __name__ == "__main__":
