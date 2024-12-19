@@ -67,9 +67,7 @@ def count_islands(grid):
         for c in range(problem.cols):
             state = (r, c)
             if state not in visited and problem.is_land(state):
-                new_grid = bfs_islands(
-                    problem, state, visited, new_grid, island_count
-                )
+                new_grid = bfs_islands(problem, state, visited, new_grid, island_count)
                 island_count += 1
 
     return island_count, new_grid
