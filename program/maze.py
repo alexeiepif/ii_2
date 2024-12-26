@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 
+from typing import Generator
+
 from tree import Problem, breadth_first_search, path_states
 
 # Вам предоставлен код для поиска кратчайшего пути через лабиринт,
@@ -12,13 +14,15 @@ from tree import Problem, breadth_first_search, path_states
 
 
 class MazeProblem(Problem):
-    def __init__(self, maze, initial, goal):
-        super().__init__(initial=initial, goal=goal)
+    def __init__(
+        self, maze: list[list[int]], initial: tuple[int, int], goal: tuple[int, int]
+    ) -> None:
+        super().__init__(initial=initial, goal=goal)  # type: ignore
         self.maze = maze
         self.rows = len(maze)
         self.cols = len(maze[0]) if self.rows > 0 else 0
 
-    def actions(self, state):
+    def actions(self, state: tuple[int, int]) -> Generator[tuple[int, int], None, None]:
         r, c = state
         directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
         for dr, dc in directions:
@@ -29,24 +33,30 @@ class MazeProblem(Problem):
             ):
                 yield (r + dr, c + dc)
 
-    def is_goal(self, state):
-        return state == self.goal
+    def is_goal(self, state: tuple[int, int]) -> bool:
+        return state == self.goal  # type: ignore
 
-    def result(self, state, action):
+    def result(
+        self, state: tuple[int, int], action: tuple[int, int]
+    ) -> tuple[int, int]:
         return action
 
-    def action_cost(self, s, a, s1):
+    def action_cost(
+        self, s: tuple[int, int], a: tuple[int, int], s1: tuple[int, int]
+    ) -> int:
         return 1
 
 
-def search(problem):
+def search(problem: MazeProblem) -> tuple[int, list[tuple[int, int]]]:
     b = breadth_first_search(problem)
     length = b.path_cost
-    path = path_states(b)
+    path = path_states(b)  # type: ignore
     return length, path
 
 
-def solve(maze, start, goal):
+def solve(
+    maze: list[list[int]], start: tuple[int, int], goal: tuple[int, int]
+) -> tuple[int, list[tuple[int, int]]]:
     problem = MazeProblem(maze, start, goal)
     return search(problem)
 

@@ -11,13 +11,13 @@ from tree import FIFOQueue, Problem
 
 
 class IslandProblem(Problem):
-    def __init__(self, grid):
-        super().__init__(initial=None)
+    def __init__(self, grid: list[list[int]]) -> None:
+        super().__init__(initial=None)  # type: ignore
         self.grid = grid
         self.rows = len(grid)
         self.cols = len(grid[0]) if self.rows > 0 else 0
 
-    def actions(self, state):
+    def actions(self, state: tuple[int, int]) -> list[tuple[int, int]]:
         r, c = state
         directions = [
             (-1, 0),
@@ -35,12 +35,18 @@ class IslandProblem(Problem):
             if 0 <= r + dr < self.rows and 0 <= c + dc < self.cols
         ]
 
-    def is_land(self, state):
+    def is_land(self, state: tuple[int, int]) -> bool:
         r, c = state
         return self.grid[r][c] == 1
 
 
-def bfs_islands(problem, start, visited, new_grid, island_count):
+def bfs_islands(
+    problem: IslandProblem,
+    start: tuple[int, int],
+    visited: set[tuple[int, int]],
+    new_grid: list[list[int]],
+    island_count: int,
+) -> list[list[int]]:
     """Запускает поиск в ширину для поиска всех клеток одного острова."""
     if problem.is_land(start):
         new_grid[start[0]][start[1]] = island_count + 1
@@ -57,9 +63,9 @@ def bfs_islands(problem, start, visited, new_grid, island_count):
     return new_grid
 
 
-def count_islands(grid):
+def count_islands(grid: list[list[int]]) -> tuple[int, list[list[int]]]:
     problem = IslandProblem(grid)
-    visited = set()
+    visited: set[tuple[int, int]] = set()
     island_count = 0
     new_grid = grid.copy()
 

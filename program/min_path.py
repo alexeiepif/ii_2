@@ -3,6 +3,7 @@
 
 
 import json
+from typing import Any, Generator
 
 from tree import Problem, breadth_first_search, path_states
 
@@ -14,17 +15,25 @@ from tree import Problem, breadth_first_search, path_states
 
 
 class MinPathProblem(Problem):
-    def __init__(self, initial, goal, nodes, edges):
-        super().__init__(initial, goal)
+    def __init__(
+        self,
+        initial: tuple[str, str],
+        goal: tuple[str, str],
+        nodes: list[dict[str, Any]],
+        edges: list[dict[str, Any]],
+    ) -> None:
+        super().__init__(initial, goal)  # type: ignore
         self.nodes = nodes
         self.edges = edges
 
-    def actions(self, state):
+    def actions(self, state: tuple[str, str]) -> Generator[dict[str, Any], None, None]:
         for edge in self.edges:
             if edge["data"]["source"] == state[0] or edge["data"]["target"] == state[0]:
                 yield edge["data"]
 
-    def result(self, state, action):
+    def result(
+        self, state: tuple[str, str], action: dict[str, Any]
+    ) -> tuple[str, str] | None:
         if state[0] == action["source"]:
             target = action["target"]
         else:
@@ -32,15 +41,18 @@ class MinPathProblem(Problem):
         for node in self.nodes:
             if node["data"]["id"] == target:
                 return (node["data"]["id"], node["data"]["label"])
+        return None
 
-    def is_goal(self, state):
-        return state == self.goal
+    def is_goal(self, state: tuple[str, str]) -> bool:
+        return state == self.goal  # type: ignore
 
-    def action_cost(self, s, a, s1):
-        return a["weight"]
+    def action_cost(
+        self, s: tuple[str, str], a: dict[str, Any], s1: tuple[str, str]
+    ) -> int:
+        return a["weight"]  # type: ignore
 
 
-def load_elems(path):
+def load_elems(path: str) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     with open(path, encoding="utf-8") as f:
         elems = json.load(f)
 
@@ -54,11 +66,16 @@ def load_elems(path):
     return nodes, edges
 
 
-def solve(init, goal, nodes, edges):
+def solve(
+    init: tuple[str, str],
+    goal: tuple[str, str],
+    nodes: list[dict[str, Any]],
+    edges: list[dict[str, Any]],
+) -> tuple[int, list[tuple[str, str]]]:
     problem = MinPathProblem(init, goal, nodes, edges)
     b = breadth_first_search(problem)
     length = b.path_cost
-    path = path_states(b)
+    path = path_states(b)  # type: ignore
     return length, path
 
 
